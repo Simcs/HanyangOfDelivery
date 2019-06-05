@@ -1,7 +1,5 @@
 # Hanyang Of Delivery
 
-***
-
 - Application which connects seller, customer, delivery.
 
 ***
