@@ -8,7 +8,7 @@
 - Seller has at least one **store** and store sells at least one **menu**.
 ### Customer
 - Customer can search store and purchase various menus.
-- By purchasing, customer creates **order** and seller can check it.
+- By purchasing, customer creates **order** and seller can check the order and send menu.
 ### Delivery
 - Seller selects delivery for each order.
 - After delivery succesfully deliver the order, customer can confirm and the order terminates.
