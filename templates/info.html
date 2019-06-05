@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+정보변경
+{% endblock %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#info").submit(function() {
+            if(!($("#info input[name=passwd]").val() && $("#info input[name=name]").val())) {
+                alert("이름과 비밀번호 모두 입력해주세요!");
+                return false;
+            }
+        })
+    })
+</script>
+{% endblock %}
+
+{% block body %}
+<h1>개인정보 변경</h1>
+<form action="/mybaehan" method='POST' id="info">
+    <input type='text' name='name' placeholder="이름">
+    <input type='password' name='passwd' placeholder="Password">
+    <input type='submit' value='변경'>
+</form>
+{% endblock %}

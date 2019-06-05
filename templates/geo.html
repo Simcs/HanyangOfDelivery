@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script>
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var f = document.createElement("form");
+        f.action = '/customer/shopping';
+        f.method = 'POST';
+
+        var lat = document.createElement("input");
+        lat.type = 'hidden';
+        lat.name = 'lat';
+        lat.value = position.coords.latitude;
+
+        var lng = document.createElement("input");
+        lng.type = 'hidden';
+        lng.name = 'lng'
+        lng.value = position.coords.longitude;
+
+        f.appendChild(lat)
+        f.appendChild(lng)
+        document.body.appendChild(f);
+        f.submit();
+    });
+</script>
+{% endblock %}

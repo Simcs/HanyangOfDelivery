@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주문
+{% endblock %}
+
+{% block body %}
+<h1>주문하기</h1> 
+<ul>
+    <form action="/customer/shopping/{{ store['sid'] }}/order", method="POST">
+        <table>
+            <tr>
+                <th>이름</th>
+                <th>수량</th>
+            </tr>
+            {% for row in menu %}
+            <tr>
+                <td>{{ row['menu'] }}</td>
+                <td><input type="number" name="q_{{ row['menu'] }}" value=0></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if payments[0][0] == None %}
+        <h3>결제수단이 존재하지 않습니다! 주문내역에서 결제수단을 추가해 주세요</h3>
+        {% elif addr_cnt == 0 %}
+        <h3>주소가 설정되어있지 않습니다 주소록에 배송지를 추가해 주세요</h3>
+        {% else %}
+        <button type="submit">결제하기</button>
+        {% endif %}
+    </form>
+</ul>
+{% endblock %}

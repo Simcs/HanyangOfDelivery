@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주소변경
+{% endblock %}
+
+{% block body %}
+<h1>주소록 관리</h1>
+<form method="get" action="/address/{{ customer['cid'] }}/edit">
+    <button type="submit" name="address" value="">+ 새로운 주소 추가</button>
+</form>
+<table>
+    <tr>
+        <th>주소</th>
+        <th>Edit</th>
+    </tr>
+    {% for row in address %}
+    <tr>
+        <td>{{ row['address'] }}</td>
+        <td>
+            <form method="get" action="/address/{{ customer['cid'] }}/edit">
+                <button type="submit" name="address" value="{{ row['address'] }}">변경</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

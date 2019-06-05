@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주문확인
+{% endblock %}
+
+{% block head %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block body %}
+<h1>주문현황</h1>
+<h2>주문내역</h2>
+{% if complete|length != 0 %}
+<table>
+    <tr>
+        <th>주문 번호</th>
+        <th>가게 이름</th>
+        <th>메뉴</th>
+        <th>수량</th>
+        <th>결제수단</th>
+        <th>주문시간</th>
+    </tr>
+    {% for row in complete %}
+    <tr>
+        <td>{{ row['oid'] }}</td>
+        <td>{{ row['sname'] }}</td>
+        <td>{{ row['menu'] }}</td>
+        <td>{{ row['quantity'] }}</td>
+        <td>{{ row['payment'] }}</td>
+        <td>{{ row['ordertime'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<h2>배송중/배송대기 상품</h2>
+<h3>배송중</h3>
+{% if ondelivery|length != 0 %}
+<table>
+    <tr>
+        <th>주문 번호</th>
+        <th>가게 이름</th>
+        <th>메뉴</th>
+        <th>수량</th>
+        <th>결제수단</th>
+        <th>주문시간</th>
+        <th>배달부 이름</th>
+        <th>배달부 전화번호</th>
+        <th>배달 확인</th>
+    </tr>
+    {% for row in ondelivery %}
+    <tr>
+        <td>{{ row['oid'] }}</td>
+        <td>{{ row['sname'] }}</td>
+        <td>{{ row['menu'] }}</td>
+        <td>{{ row['quantity'] }}</td>
+        <td>{{ row['payment'] }}</td>
+        <td>{{ row['ordertime'] }}</td>
+        <td>{{ row['name'] }}</td>
+        <td>{{ row['phone'] }}</td>
+        <td>
+            <form action="/customer/order/confirm" method="POST">
+                <input type="hidden" name="oid" value="{{ row['oid'] }}">
+                <input type="hidden" name="did" value="{{ row['did'] }}">
+                <button type="submit">확인</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<h3>배송대기</h3>
+{% if notcheck|length != 0 %}
+<table>
+    <tr>
+        <th>주문 번호</th>
+        <th>가게 이름</th>
+        <th>메뉴</th>
+        <th>수량</th>
+        <th>결제수단</th>
+        <th>주문시간</th>
+    </tr>
+    {% for row in notcheck %}
+    <tr>
+        <td>{{ row['oid'] }}</td>
+        <td>{{ row['sname'] }}</td>
+        <td>{{ row['menu'] }}</td>
+        <td>{{ row['quantity'] }}</td>
+        <td>{{ row['payment'] }}</td>
+        <td>{{ row['ordertime'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<h2>결제수단</h2>
+<form action="/customer/order/payment" method="GET">
+    <button type="submit" name="add">+ 새로운 결제수단 추가</button>
+</form>
+{% for p in payments %}
+    {% if p['type'] == 'account' %}
+    <form action="/customer/order/payment" method="GET">
+        <li>
+            계좌, 은행 : {{ p['data']['bname'] }}, 계좌번호 : {{ p['data']['acc_num']}}
+            <input type="hidden" name="type" value="account">
+            <input type="hidden" name="bid" value="{{ p['data']['bid'] }}">
+            <input type="hidden" name="acc_num" value="{{ p['data']['acc_num'] }}">
+            <button type="submit" name="edit">변경</button>
+        </li>
+    </form>
+    <form action="/customer/order/payment" method="POST">
+        <input type="hidden" name="type" value="account">
+        <input type="hidden" name="bid" value="{{ p['data']['bid'] }}">
+        <input type="hidden" name="acc_num" value="{{ p['data']['acc_num'] }}">
+        <button type="submit" name="delete">삭제</button>
+    </form>
+    {% else %}
+    <form action="/customer/order/payment" method="GET">
+        <li>
+            카드, 카드번호 : {{ p['data']['card_num'] }}
+            <input type="hidden" name="type" value="card">
+            <input type="hidden" name="card_num" value="{{ p['data']['card_num'] }}">
+            <button type="submit" name="edit">변경</button>
+        </li>
+    </form>
+    <form action="/customer/order/payment" method="POST">
+        <input type="hidden" name="type" value="card">
+        <input type="hidden" name="card_num" value="{{ p['data']['card_num'] }}">
+        <button type="submit" name="delete">삭제</button>
+    </form>
+    {% endif %}
+{% endfor %}
+{% endblock %}

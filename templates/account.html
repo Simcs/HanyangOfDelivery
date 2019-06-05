@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+계정선택
+{% endblock %}
+
+{% block body %}
+<h1>어떤 계정으로 로그인 하시겠습니까?</h1>
+<table>
+    <tr>
+        <th>유형</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+    </tr>
+
+    {% for account in accounts %}
+    <tr>
+        <td>{{ account['type'] }}</td>
+        <td>{{ account['info']['name'] }}</td>
+        <td>{{ account['info']['email'] }}</td>
+        <td>{{ account['info']['phone'] }}</td>
+        <td>
+            <form action="/login2" method='POST'>
+                <input type="hidden" name='accounts' value="{{ account }}">
+                <button type='submit' name='type' value="{{ account['type'] }}">선택</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

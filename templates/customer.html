@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+customer
+{% endblock %}
+
+{% block head %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block body %}
+    <h1>안녕하세요 {{ user['name'] }} 고객님!</h1>
+    <form action="/customer/shopping">
+        <li>
+            <button type="submit">구매하기</button>
+        </li>
+    </form>
+    <form action="/customer/order">
+        <li>
+            <button type="submit">주문 현황</button>
+        </li>
+    </form>
+    
+    <h2>기타</h2>
+    <form action="/address/{{ user['cid'] }}" method='GET'>
+        <li>
+            <button type="submit">주소록 관리</button>
+        </li>
+    </form>
+    <li>
+        <a href='/mybaehan'>개인정보 수정</a>
+    </li>
+    <li>
+        <a href='/logout'>로그아웃</a>
+    </li>
+{% endblock %}

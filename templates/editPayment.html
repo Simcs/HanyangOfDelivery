@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+결제수단변경
+{% endblock %}
+
+{% block body %}
+<h2>새로운 결제수단을 입력해주세요</h2>
+<form action="/customer/order/payment" method="post">
+    <h3>계좌</h3>
+    <select name="nbid" required>
+        {% for row in bank %}
+        <option value="{{ row['bid'] }}">{{ row['name'] }}</option>
+        {% endfor %}
+    </select>
+    {% if payment['type'] == 'account' %}
+    <input type="hidden" name="ptype" value="{{ payment['type'] }}">
+    <input type="hidden" name="pbid" value="{{ payment['bid'] }}">
+    <input type="hidden" name="pacc_num" value="{{ payment['acc_num'] }}">
+    {% elif payment['type'] == 'card' %}
+    <input type="hidden" name="ptype" value="{{ payment['type'] }}">
+    <input type="hidden" name="pcard_num" value="{{ payment['card_num'] }}">
+    {% endif %}
+    <input type="hidden" name="ntype" value="account">
+    <input type="number" name="nacc_num" value="">
+    
+    <button type="submit" name="save" value="save">변경</button>
+</form>
+<form action="/customer/order/payment" method="post">
+    <h3>카드</h3>
+    {% if payment['type'] == 'account' %}
+    <input type="hidden" name="ptype" value="{{ payment['type'] }}">
+    <input type="hidden" name="pbid" value="{{ payment['bid'] }}">
+    <input type="hidden" name="pacc_num" value="{{ payment['acc_num'] }}">
+    {% elif payment['type'] == 'card' %}
+    <input type="hidden" name="ptype" value="{{ payment['type'] }}">
+    <input type="hidden" name="pcard_num" value="{{ payment['card_num'] }}">
+    {% endif %}
+    <input type="hidden" name="ntype" value="card">
+    <input type="number" name="ncard_num" value="">
+    
+    <button type="submit" name="save" value="save">변경</button>
+</form>
+{% endblock %}

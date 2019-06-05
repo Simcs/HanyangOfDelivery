@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}
+store
+{% endblock %}
+
+{% block head %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block body %}
+<h1>이름 : {{ store['sname'] }}</h1>
+<ul>
+    <li>주소 : {{ store['address'] }}</li>
+
+    <li>전화번호 : </li>
+    <ul>
+        {% for phone_num in phone_nums %}
+        <li>{{ phone_num }}</li>
+        {% endfor %}
+    </ul>
+
+    <li>영업시간 : </li>
+    <ul>
+        {% for schedule in schedules %}
+        <li>
+            {% if schedule['holiday'] %}
+            {{ schedule['day'] }} : 휴무
+            {% else %}
+            {{ schedule['day'] }} : {{ schedule['open'] }} ~ {{ schedule['closed'] }}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <li>
+        태그 : 
+        {% for tag in tags %}
+        #{{ tag['tag'] }} 
+        {% endfor %}
+    </li>
+
+    <li>메뉴 : </li> 
+    <ul>
+        <table>
+            <tr>
+                <th>이름</th>
+            </tr>
+            {% for row in menu %}
+            <tr>
+                <td>{{ row['menu'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </ul>
+
+    <form action="/customer/shopping/{{ store['sid'] }}/order">
+        <button type="submit">주문하기</button>
+    </form>
+</ul>
+{% endblock %}

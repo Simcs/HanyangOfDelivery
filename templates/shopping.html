@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주문
+{% endblock %}
+
+{% block body %}
+    <h1>가게를 선택해주세요!</h1>
+    <h3>현재 위치로부터 가장 가까운 곳에 위치한 영업중인 10개의 가게입니다</h3>
+    <table>
+        <tr>
+            <th>이름</th>
+            <th>주소</th>
+        </tr>
+        {% for row in stores %}
+        <tr>
+            <td>{{ row['sname'] }}</td>
+            <td>{{ row['address'] }}</td>
+            <td>
+                <form action="/customer/shopping/{{ row['sid'] }}" method="GET">
+                    <button type="submit">선택</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>가게 검색</h3>
+    <li>주소로 검색</li>
+    <form action="/customer/search" method="GET">
+        <input type="text" name="address" placeholder="주소">
+        <button type="submit">검색</button>
+    </form>
+
+    <li>태그로 검색</li>
+    <form action="/customer/search" method="GET">
+        <input type="text" name="tag" placeholder="태그">
+        <button type="submit">검색</button>
+    </form>
+
+    <li>이름으로 검색</li>
+    <form action="/customer/search" method="GET">
+        <input type="text" name="name" placeholder="이름">
+        <button type="submit">검색</button>
+    </form>
+    
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "layout.html" %}
+
+{% block title %}
+store
+{% endblock %}
+
+{% block head %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block body %}
+<h1>이름 : {{ store['sname'] }}</h1>
+<ul>
+    <li>주소 : {{ store['address'] }}</li>
+
+    <li>전화번호 : </li>
+    <ul>
+        {% for phone_num in phone_nums %}
+        <li>{{ phone_num }}</li>
+        {% endfor %}
+    </ul>
+
+    <li>영업시간 : </li>
+    <ul>
+        {% for schedule in schedules %}
+        <li>
+            {% if schedule['holiday'] %}
+            {{ schedule['day'] }} : 휴무
+            {% else %}
+            {{ schedule['day'] }} : {{ schedule['open'] }} ~ {{ schedule['closed'] }}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <li>
+        태그 : 
+        {% for tag in tags %}
+        #{{ tag['tag'] }} 
+        {% endfor %}
+    </li>
+
+    <li>메뉴 : </li> 
+    <ul>
+        <form method="get" action="/store/{{ store['sid'] }}/menu/edit">
+            <button type="submit">+ 새로운 메뉴 추가</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>이름</th>
+                <th>Edit</th>
+            </tr>
+            {% for row in menu %}
+            <tr>
+                <td>{{ row['menu'] }}</td>
+                <td>
+                    <form method="get" action="/store/{{ store['sid'] }}/menu/edit">
+                        <input type="hidden" name="menu" value="{{ row['menu'] }}">
+                        <button type="submit">변경</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </ul>
+
+    <li>주문목록 : </li>
+    <ul>
+        <table>
+            <tr>
+                <th>주문번호</th>
+                <th>고객 이메일</th>
+                <th>고객 휴대폰 번호</th>
+                <th>메뉴</th>
+                <th>수량</th>
+                <th>결제수단</th>
+                <th>주문 상태</th>
+                <th>주문확인</th>
+                <th>주문취소</th>
+            </tr>
+
+            {% for row in orders %}
+            <tr>
+                <td>{{ row['oid'] }}</td>
+                <td>{{ row['email'] }}</td>
+                <td>{{ row['phone'] }}</td>
+                <td>{{ row['menu'] }}</td>
+                <td>{{ row['quantity'] }}</td>
+                <td>{{ row['payment'] }}</td>
+                {% if row['complete'] %}
+                <td>배송완료</td>
+                {% elif row['delivering'] %}
+                <td>배송중</td>
+                {% else %}
+                <td>배송전</td>
+                {% endif %}
+                
+                {% if not row['delivering'] %}
+                <td>
+                    <form method="post" action="/store/{{ store['sid'] }}/order">
+                        <input type="hidden" name="oid" value="{{ row['oid'] }}">
+                        <input type="hidden" name="check">
+                        <button type="submit">확인</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="/store/{{ store['sid'] }}/order">
+                        <input type="hidden" name="oid" value="{{ row['oid'] }}">
+                        <input type="hidden" name="delete">
+                        <button type="submit">삭제</button>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </ul>
+</ul>
+{% endblock %}

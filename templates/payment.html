@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+결제수단
+{% endblock %}
+
+{% block body %}
+<h1>결제수단 선택</h1> 
+<table>
+    <tr>
+        <th>유형</th>
+        <th>정보</th>
+    </tr>
+    {% for row in payments %}
+    <tr>
+        {% if row['type'] == 'account' %}
+        <td>계좌</td>
+        <td>{{ row['data']['bid'] }}, 계좌번호 : {{ row['data']['acc_num'] }}</td>
+        <form action="/customer/shopping/{{ store['sid'] }}/order/confirm" method="POST">
+            <input type="hidden" name="order" value="{{ orders }}">
+            <input type="hidden" name="type" value="account">
+            <input type="hidden" name="bank" value="{{ row['data']['bid'] }}">
+            <input type="hidden" name="acc_num" value="{{ row['data']['acc_num'] }}">
+            <td><button type="submit">선택</button></td>
+        </form>
+        {% else %}
+        <td>카드</td>
+        <td>번호 : {{ row['data']['card_num'] }}</td>
+        <form action="/customer/shopping/{{ store['sid'] }}/order/confirm" method="POST">  
+            <input type="hidden" name="order" value="{{ orders }}">
+            {{ order }}
+            <input type="hidden" name="type" value="card">
+            <input type="hidden" name="card_num" value="{{ row['data']['card_num'] }}">
+            <td><button type="submit">선택</button></td>
+        </form>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+로그인
+{% endblock %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#login").submit(function() {
+            if(!$("#login input[name=passwd]").val()) {
+                alert("패스워드를 입력해주세요!");
+                return false;
+            }
+        })
+    })
+</script>
+{% endblock %}
+
+{% block body %}
+<h1>Login</h1>
+<form action="/login" method='POST' id="login">
+    <input type='email' name='email' placeholder="이메일">
+    <input type='password' name='passwd' placeholder="Password">
+    <input type='submit' value='로그인'>
+</form>
+{% endblock %}

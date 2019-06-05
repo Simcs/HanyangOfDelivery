@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주문확인
+{% endblock %}
+
+{% block body %}
+    <h1>배달원을 선택해주세요!</h1>
+    <h3>현재 가게로부터 가장 가까운 곳에 위치한 5명의 배달원입니다</h3>
+    <table>
+        <tr>
+            <th>이름</th>
+            <th>전화번호</th>
+        </tr>
+        {% for row in delivery %}
+        <tr>
+            <td>{{ row['name'] }}</td>
+            <td>{{ row['phone'] }}</td>
+            <td>
+                <form action="/store/{{ sid }}/order/confirm" method="POST">
+                    <input type="hidden" name="oid" value="{{ oid }}">
+                    <button type="submit" name="did" value="{{ row['did'] }}">선택</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+delivery
+{% endblock %}
+
+{% block head %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block body %}
+<h1>안녕하세요 {{ user['name'] }} 님!</h1>
+<h2>현재 배송 중인 주문</h2>
+<table>
+    <tr>
+        <td>주문 번호</td>
+        <td>메뉴</td>
+        <td>가게명</td>
+        <td>가게 주소</td>
+        <td>주문자 이름</td>
+        <td>주문자 번호</td>
+        <td>주문 시간</td>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order['oid'] }}</td>
+        <td>{{ order['menu'] }}</td>
+        <td>{{ order['sname'] }}</td>
+        <td>{{ order['saddress'] }}</td>
+        <td>{{ order['cname'] }}</td>
+        <td>{{ order['cphone'] }}</td>
+        <td>{{ order['ordertime'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>기타</h2>
+<li>
+    <a href='/mybaehan'>개인정보 수정</a>
+</li>
+<li>
+    <a href='/logout'>로그아웃</a>
+</li>
+{% endblock %}

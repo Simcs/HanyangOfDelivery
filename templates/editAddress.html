@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+주소변경
+{% endblock %}
+
+{% block body %}
+<form action="/address/{{ cid }}/edit" method="post">
+    <input name="address" placeholder="주소" value="{{ address }}" required>
+    <input type="hidden" name="prev" value="{{ address }}">
+
+    <button type="submit" name="save" value="save">Save</button>
+    <button type="submit" name="delete" value="delete">Delete</button>
+</form>
+{% endblock %}

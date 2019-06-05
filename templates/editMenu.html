@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+메뉴변경
+{% endblock %}
+
+{% block body %}
+<form action="/store/{{ sid }}/menu/edit" method="post">
+    <input name="menu" placeholder="메뉴" value="{{ menu }}" required>
+    <input type="hidden" name="prev" value="{{ menu }}">
+
+    <button type="submit" name="save" value="save">Save</button>
+    <button type="submit" name="delete" value="delete">Delete</button>
+</form>
+{% endblock %}
