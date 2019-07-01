@@ -32,7 +32,7 @@ Postgres=# create user db3 with password ‘1234’;
 ```
 3. Restore 'beahan.sql' file using 'psql'.
 ```
-PS C:\program files\postgresql\10\bin> ./psql.exe -U postgres -f <baehan.sql경로> db3
+PS C:\program files\postgresql\10\bin> ./psql.exe -U postgres -f <path for 'baehan.sql'> db3
 ```
 
 ***
