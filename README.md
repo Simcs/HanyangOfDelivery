@@ -1,6 +1,7 @@
 # Hanyang Of Delivery
 
-- Application which connects seller, customer, delivery.
+- Application which demonstrates the behavior of online delivery service.
+- This connects seller, customer, delivery via online web.
 
 ***
 
